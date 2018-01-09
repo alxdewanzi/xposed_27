@@ -94,22 +94,26 @@ ui_print "******************************"
 # Install
 ##########################################################################################
 
-# Get the variable reqSizeM. Use your own method to determine reqSizeM if needed
-request_zip_size_check "$ZIP"
+ui_print "- Extracting module files"
+unzip -o "$ZIP" -d $INSTALLER >&2
+request_size_check $INSTALLER/$ARCH
 
 # This function will mount $IMG to $MOUNTPATH, and resize the image based on $reqSizeM
 mount_magisk_img
+
+XPOSEDDIR=$INSTALLER/$ARCH
+check_xposed_version
 
 # Create mod paths
 rm -rf $MODPATH 2>/dev/null
 mkdir -p $MODPATH
 
-# Extract files to system. Use your own method if needed
-ui_print "- Extracting module files"
-unzip -o "$ZIP" 'system/*' -d $MODPATH >&2
-
-# Remove placeholder
-rm -f $MODPATH/system/placeholder 2>/dev/null
+# Copy files
+ui_print "- Copying files"
+cp -af $XPOSEDDIR/system/. $MODPATH/system
+mv $MODPATH/system/xposed.prop $MODPATH/xposed.prop
+mkdir $MODPATH/system/framework
+cp -af $INSTALLER/common/XposedBridge.jar $MODPATH/system/framework/XposedBridge.jar
 
 # Handle replace folders
 for TARGET in $REPLACE; do

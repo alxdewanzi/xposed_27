@@ -28,7 +28,7 @@ AUTOMOUNT=true
 PROPFILE=false
 
 # Set to true if you need post-fs-data script
-POSTFSDATA=false
+POSTFSDATA=true
 
 # Set to true if you need late_start service script
 LATESTARTSERVICE=false
@@ -41,7 +41,7 @@ LATESTARTSERVICE=false
 
 print_modname() {
   ui_print "*******************************"
-  ui_print "     Magisk Module Template    "
+  ui_print "Xposed framework installer zip "
   ui_print "*******************************"
 }
 
@@ -85,6 +85,14 @@ set_permissions() {
 
   # The following is default permissions, DO NOT remove
   set_perm_recursive  $MODPATH  0  0  0755  0644
+
+  set_perm_recursive  $MODPATH/system/bin       0       2000    0755    0755
+
+  set_perm  $MODPATH/system/bin/app_process32   0       2000    0755         u:object_r:zygote_exec:s0
+  set_perm  $MODPATH/system/bin/dex2oat         0       2000    0755         u:object_r:dex2oat_exec:s0
+  set_perm  $MODPATH/system/bin/patchoat        0       2000    0755         u:object_r:zygote_exec:s0
+
+  $IS64BIT && set_perm $MODPATH/system/bin/app_process64   0   2000  0755  u:object_r:zygote_exec:s0
 }
 
 ##########################################################################################
@@ -97,3 +105,49 @@ set_permissions() {
 # difficult for you to migrate your modules to newer template versions.
 # Make update-binary as clean as possible, try to only do function calls in it.
 
+android_version() {
+  case $1 in
+    15) echo '4.0 / SDK'$1;;
+    16) echo '4.1 / SDK'$1;;
+    17) echo '4.2 / SDK'$1;;
+    18) echo '4.3 / SDK'$1;;
+    19) echo '4.4 / SDK'$1;;
+    21) echo '5.0 / SDK'$1;;
+    22) echo '5.1 / SDK'$1;;
+    23) echo '6.0 / SDK'$1;;
+    *)  echo 'SDK'$1;;
+  esac
+}
+
+check_xposed_version() {
+  XVERSION=$(grep_prop version $XPOSEDDIR/system/xposed.prop)
+  XMINSDK=$(grep_prop minsdk $XPOSEDDIR/system/xposed.prop)
+  XMAXSDK=$(grep_prop maxsdk $XPOSEDDIR/system/xposed.prop)
+
+  XEXPECTEDSDK=$(android_version $XMINSDK)
+  if [ "$XMINSDK" != "$XMAXSDK" ]; then
+    XEXPECTEDSDK=$XEXPECTEDSDK' - '$(android_version $XMAXSDK)
+  fi
+
+  ui_print "- Xposed version: $XVERSION"
+  ui_print "- Device platform: $ARCH"
+
+  XVALID=
+  if [ "$API" -ge "$XMINSDK" ]; then
+    if [ "$API" -le "$XMAXSDK" ]; then
+      XVALID=1
+    else
+      ui_print "! Wrong Android version: $APINAME"
+      ui_print "! This file is for: $XEXPECTEDSDK"
+    fi
+  else
+    ui_print "! Wrong Android version: $APINAME"
+    ui_print "! This file is for: $XEXPECTEDSDK"
+  fi
+
+  if [ -z $XVALID ]; then
+    ui_print "! Please download the correct package"
+    ui_print "! for your Android version!"
+    exit 1
+  fi
+}

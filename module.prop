@@ -1,7 +1,7 @@
-id=template
-name=Template Module
-version=v1
-versionCode=1
-author=topjohnwu
-description=A short description
+id=xposed_27
+name=Xposed Framework (SDK 27)
+version=90.0-beta1 (Systemless by topjohnwu)
+versionCode=9000
+author=rovo89
+description=Xposed Framework by rovo89, ported to Magisk by topjohnwu
 minMagisk=1500

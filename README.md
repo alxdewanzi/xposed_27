@@ -1,9 +1,11 @@
-# Magisk Module Template
+## Systemless Xposed For SDK 27 (Android 8.1)
 
-This `README.md` will be shown in Magisk Manager. Place any information / changelog / notes you like.
+Please install my modified [XposedInstaller(3.1.4)](https://forum.xda-developers.com/attachment.php?attachmentid=4337506&d=1511193653) to properly detect Systemless Xposed. The APK is signed by my personal key, you might need to uninstall other versions before installing mine.
 
-**Please update `README.md` if you want to submit your module to the online repo!**
+### [More details in support thread](http://forum.xda-developers.com/showthread.php?t=3388268)
 
-Github has its own online markdown editor with a preview feature, you can use it to update your `README.md`! If you need more advanced syntax, check the [Markdown Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+## Changelog
 
-For more information about modules and repos, please check the [official documentations](https://github.com/topjohnwu/Magisk/blob/master/docs/module_repo.md)
+#### v90.0-beta1
+- Update to official v90-beta1
+
