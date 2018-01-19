@@ -6,6 +6,9 @@ Please install my modified [XposedInstaller(3.1.4)](https://forum.xda-developers
 
 ## Changelog
 
+#### v90.0-beta2
+- Update to official v90-beta2
+
 #### v90.0-beta1
 - Update to official v90-beta1
 
