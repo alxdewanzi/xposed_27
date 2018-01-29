@@ -1,7 +1,7 @@
 id=xposed_27
 name=Xposed Framework (SDK 27)
-version=90.1-beta2 (Systemless)
-versionCode=9010
+version=90.1-beta3 (Systemless)
+versionCode=9011
 author=rovo89
 description=Xposed Framework by rovo89, ported to Magisk by topjohnwu
 minMagisk=1500

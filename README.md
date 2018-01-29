@@ -6,6 +6,9 @@ Please install my modified [XposedInstaller(3.1.5)](https://forum.xda-developers
 
 ## Changelog
 
+#### v90.1-beta3
+- Update to official v90-beta3
+
 #### v90.1-beta2
 - Fix selinux context on several binaries
 
